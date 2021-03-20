@@ -1,54 +1,64 @@
 package com.example.multimediamanager;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public ArrayList<Media> arrayList = new ArrayList<Media>();
+    private RecyclerView recyclerView;
+    public ArrayList<Media> mediaList = new ArrayList<Media>();
+    MyRecyclerViewAdapter adapter;
 
     private Integer imageId[] = {
             R.drawable.mp3_icon,
     };
 
     public void prepareData() {
-        arrayList.add(new Media("JAVA", "MP3", "2018-03-18", imageId[0]));
-        arrayList.add(new Media("JAVA", "MP3", "2018-03-18", imageId[0]));
-        arrayList.add(new Media("JAVA", "MP3", "2018-03-18", imageId[0]));
+        mediaList.add(new Media("JAVA", "MP3", "2018-03-18", imageId[0]));
+        mediaList.add(new Media("JAVA", "MP3", "2018-03-18", imageId[0]));
+        mediaList.add(new Media("JAVA", "MP3", "2018-03-18", imageId[0]));
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        prepareData();
+    private void setUIRef()
+    {
+        recyclerView = findViewById(R.id.myRecyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter=new MyRecyclerViewAdapter(mediaList);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
-        final ListView list = findViewById(R.id.list);
-
-        CustomAdapter customAdapter = new CustomAdapter(this, arrayList);
-        list.setAdapter(customAdapter);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("CLICKED");
-                Media clickedMedia = arrayList.get(position);
+            public void onClick(View view, int position) {
+                Media clickedMedia = mediaList.get(position);
                 Intent zoomImageIntent = new Intent(getApplicationContext(), ImageZoomActivity.class);
                 zoomImageIntent.putExtra("IMAGE_RESOURCE", clickedMedia.getImage());
                 startActivity(zoomImageIntent);
             }
 
-        });
+            @Override
+            public void onLongClick(View view, int position) {
 
+            }
+        }));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+        prepareData();
+        setUIRef();
 
     }
+
+
 }
