@@ -5,12 +5,14 @@ public class Media {
     private String type;
     private String creationDate;
     private int image;
+    private boolean favorite;
 
-    public Media(String title, String type, String creationDate, int image) {
+    public Media(String title, String type, String creationDate, int image, boolean fav) {
         this.title = title;
         this.type = type;
         this.creationDate = creationDate;
         this.image = image;
+        this.favorite = fav;
     }
 
     public String getTitle() {
@@ -38,4 +40,12 @@ public class Media {
     }
 
     public int getImage() {return image;}
+
+    public boolean getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 }

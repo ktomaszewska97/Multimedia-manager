@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     private ArrayList<Media> media;
@@ -33,6 +34,8 @@ class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.M
         holder.title.setText(media.get(position).getTitle());
         holder.creationDate.setText(media.get(position).getCreationDate());
         holder.image.setImageResource(media.get(position).getImage());
+        holder.fav.setText(String.valueOf(media.get(position).getFavorite()));
+
     }
 
     @Override
@@ -57,6 +60,7 @@ class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.M
     {
         private TextView title;
         private TextView creationDate;
+        private TextView fav;
         private ImageView image;
 
         MyViewHolder(@NonNull View itemView)
@@ -66,8 +70,15 @@ class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.M
             title = itemView.findViewById(R.id.title);
             creationDate = itemView.findViewById(R.id.date);
             image = itemView.findViewById(R.id.list_image);
+            fav = itemView.findViewById(R.id.favorites);
 
         }
+    }
+
+    public void setFilter(List<Media> newList){
+        media = new ArrayList<>();
+        media.addAll(newList);
+        notifyDataSetChanged();
     }
 
 }

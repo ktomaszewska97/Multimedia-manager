@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".bmiMainActivity">
+    <item
+        android:id="@+id/favorites"
+        android:title="@string/favorites"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_by_name"
+        android:title="@string/sort_by_name"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/sort_by_date"
+        android:title="@string/sort_by_date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_new"
+        android:title="@string/add_new"
+        app:showAsAction="never" />
+
+</menu>

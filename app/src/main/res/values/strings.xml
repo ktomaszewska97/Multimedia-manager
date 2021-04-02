@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MultimediaManager</string>
-    <string name="todo">TODO</string>
+    <string name="favorites">Favorites</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_date">Sort by date</string>
+    <string name="add_new">Take a photo</string>
 </resources>

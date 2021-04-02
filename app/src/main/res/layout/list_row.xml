@@ -14,16 +14,28 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginRight="5sp"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/favorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center" />
+
+    <RelativeLayout
+        android:id="@+id/rlRight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </RelativeLayout>
 
 
 </LinearLayout>
