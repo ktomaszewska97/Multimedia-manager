@@ -8,11 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,9 +36,22 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void prepareData() {
-        mediaList.add(new Media("B", "MP3", "2016-03-18", imageId[0], false));
-        mediaList.add(new Media("C", "MP3", "2015-03-18", imageId[0], false));
-        mediaList.add(new Media("A", "MP3", "2012-03-18", imageId[0], false));
+
+        //jak dodawać creation date i typ?
+
+        String extStore = System.getenv("EXTERNAL_STORAGE");
+        File directory = new File(extStore+"/Pictures/");
+        File[] files = directory.listFiles();
+        Log.d("Files", "Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            Log.d("Files", "FileName:" + files[i].getName());
+            mediaList.add(new Media(files[i].getName(), "MP3", "2016-03-18", files[i].getAbsolutePath(), false));
+        }
+
+        //mediaList.add(new Media("B", "MP3", "2016-03-18", imageId[0], false));
+        //mediaList.add(new Media("C", "MP3", "2015-03-18", imageId[0], false));
+        //mediaList.add(new Media("A", "MP3", "2012-03-18", imageId[0], false));
     }
 
     private void setUIRef()
@@ -62,6 +82,18 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
+    private void filter(String text) {
+        ArrayList<Media> filteredList = new ArrayList<>();
+
+        for (Media item : mediaList) {
+            if (item.getTitle().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+
+        adapter.filterList(filteredList);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +107,25 @@ public class MainActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelperFavourite = new ItemTouchHelper(simpleItemTouchCallbackFavorite);
         itemTouchHelperFavourite.attachToRecyclerView(recyclerView);
+
+        EditText editText = findViewById(R.id.edittext);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
+
 
     }
 
@@ -142,8 +193,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.add_new) {
-            //Intent about_me_intent = new Intent(context, aboutMeActivity.class);
-            //startActivity(about_me_intent);
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(cameraIntent, 1888);
+
+            Intent cameraImageIntent = new Intent(getApplicationContext(), ImageCameraActivity.class);
+            //cameraImageIntent.putExtra("IMAGE_RESOURCE", clickedMedia.getImage());
+            //startActivity(cameraImageIntent);
         }
 
         return super.onOptionsItemSelected(item);

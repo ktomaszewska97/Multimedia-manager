@@ -1,5 +1,7 @@
 package com.example.multimediamanager;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +35,11 @@ class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.M
     {
         holder.title.setText(media.get(position).getTitle());
         holder.creationDate.setText(media.get(position).getCreationDate());
-        holder.image.setImageResource(media.get(position).getImage());
+
         holder.fav.setText(String.valueOf(media.get(position).getFavorite()));
+
+        Bitmap bm = BitmapFactory.decodeFile(media.get(position).getImage());
+        holder.image.setImageBitmap(bm);
 
     }
 
@@ -78,6 +83,11 @@ class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.M
     public void setFilter(List<Media> newList){
         media = new ArrayList<>();
         media.addAll(newList);
+        notifyDataSetChanged();
+    }
+
+    public void filterList(ArrayList<Media> filteredList) {
+        media = filteredList;
         notifyDataSetChanged();
     }
 

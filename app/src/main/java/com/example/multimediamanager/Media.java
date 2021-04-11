@@ -1,13 +1,16 @@
 package com.example.multimediamanager;
 
+import android.graphics.Bitmap;
+
 public class Media {
     private String title;
     private String type;
     private String creationDate;
-    private int image;
+    private String image;
     private boolean favorite;
+    private String tag1, tag2, tag3;
 
-    public Media(String title, String type, String creationDate, int image, boolean fav) {
+    public Media(String title, String type, String creationDate, String image, boolean fav) {
         this.title = title;
         this.type = type;
         this.creationDate = creationDate;
@@ -39,7 +42,7 @@ public class Media {
         this.creationDate = creationDate;
     }
 
-    public int getImage() {return image;}
+    public String getImage() {return image;}
 
     public boolean getFavorite() {
         return favorite;
