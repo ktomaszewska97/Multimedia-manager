@@ -35,11 +35,15 @@ class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.M
     {
         holder.title.setText(media.get(position).getTitle());
         holder.creationDate.setText(media.get(position).getCreationDate());
-
-        holder.fav.setText(String.valueOf(media.get(position).getFavorite()));
-
         Bitmap bm = BitmapFactory.decodeFile(media.get(position).getImage());
         holder.image.setImageBitmap(bm);
+        if(media.get(position).getFavorite()) {
+            holder.fav.setText("Favourite");
+    }
+        else {
+            holder.fav.setText("Not favourite");
+        }
+        //holder.fav.setText(String.valueOf(media.get(position).getFavorite()));
 
     }
 

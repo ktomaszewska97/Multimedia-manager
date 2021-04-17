@@ -18,6 +18,13 @@ public class Media {
         this.favorite = fav;
     }
 
+    public Media(String title, String type, String creationDate, boolean fav) {
+        this.title = title;
+        this.type = type;
+        this.creationDate = creationDate;
+        this.favorite = fav;
+    }
+
     public String getTitle() {
         return title;
     }

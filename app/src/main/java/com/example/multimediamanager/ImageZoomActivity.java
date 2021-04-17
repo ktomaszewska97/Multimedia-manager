@@ -24,12 +24,5 @@ public class ImageZoomActivity extends AppCompatActivity {
 
         Bitmap bm = BitmapFactory.decodeFile(image);
         photoView.setImageBitmap(bm);
-
-        //photoView.setImageResource(image);
-
-        //ImageView zoomedImage = (ImageView) findViewById(R.id.bigImage);
-        //zoomedImage.setImageResource(image);
-
-
     }
 }

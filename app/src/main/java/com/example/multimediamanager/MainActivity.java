@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,9 +21,9 @@ import android.widget.EditText;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,21 +38,29 @@ public class MainActivity extends AppCompatActivity {
 
     public void prepareData() {
 
-        //jak dodawać creation date i typ?
-
         String extStore = System.getenv("EXTERNAL_STORAGE");
         File directory = new File(extStore+"/Pictures/");
         File[] files = directory.listFiles();
-        Log.d("Files", "Size: "+ files.length);
+        //Log.d("Files", "Size: "+ files.length);
         for (int i = 0; i < files.length; i++)
         {
-            Log.d("Files", "FileName:" + files[i].getName());
-            mediaList.add(new Media(files[i].getName(), "MP3", "2016-03-18", files[i].getAbsolutePath(), false));
+            //Log.d("Files", "FileName:" + files[i].getName());
+            Date lastModified = new Date(files[i].lastModified());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDateString = formatter.format(lastModified);
+            mediaList.add(new Media(files[i].getName(), "Picture", formattedDateString, files[i].getAbsolutePath(), false));
         }
 
-        //mediaList.add(new Media("B", "MP3", "2016-03-18", imageId[0], false));
-        //mediaList.add(new Media("C", "MP3", "2015-03-18", imageId[0], false));
-        //mediaList.add(new Media("A", "MP3", "2012-03-18", imageId[0], false));
+        File directory_recordings = new File(extStore+"/Music/");
+        File[] files_recordings = directory_recordings.listFiles();
+        for (int i = 0; i < files_recordings.length; i++)
+        {
+            Date lastModified = new Date(files_recordings[i].lastModified());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDateString = formatter.format(lastModified);
+            mediaList.add(new Media(files_recordings[i].getName(), "Picture", formattedDateString,false));
+        }
+
     }
 
     private void setUIRef()
@@ -193,16 +202,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.add_new) {
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, 1888);
-
-            Intent cameraImageIntent = new Intent(getApplicationContext(), ImageCameraActivity.class);
-            //cameraImageIntent.putExtra("IMAGE_RESOURCE", clickedMedia.getImage());
-            //startActivity(cameraImageIntent);
+            Intent intent = new Intent(this, ImageCameraActivity.class);
+            startActivity(intent);
         }
 
+        if (id == R.id.recorder) {
+            Intent intent = new Intent(this, VoiceRecorder.class);
+            startActivity(intent);
+        }
+        if (id == R.id.video_recorder) {
+            Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takeVideoIntent, 1);
+                }
+            }
         return super.onOptionsItemSelected(item);
     }
-
 
 }

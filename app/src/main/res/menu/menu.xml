@@ -21,4 +21,14 @@
         android:title="@string/add_new"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/recorder"
+        android:title="Make audio recording"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/video_recorder"
+        android:title="Make video recording"
+        app:showAsAction="never" />
+
 </menu>
